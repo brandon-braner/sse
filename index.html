@@ -7,13 +7,48 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
 
-    <script>
+    <button id="openConnection">Open Connection</button>
 
-        let eventSrc = new EventSource('http://localhost:8000/stream/1');
-        eventSrc.onmessage = function (e) {
-            console.log('message');
-            console.log(e.data);
+    <button id="closeConnection">Close Connection</button>
+    <div id="eventSource">
+        <ul></ul>
+    </div>
+
+    <script>
+        const openButton = document.getElementById("openConnection");
+        openButton.onclick = () => {
+            const evtSource = new EventSource("http://localhost:8000/stream/1");
+            const eventList = document.querySelector("ul");
+            evtSource.addEventListener("message", (e) => {
+                const newElement = document.createElement("li");
+
+                newElement.textContent = `message: ${e.data}`;
+                eventList.appendChild(newElement);
+            });
+
+            // you can also use .onmessage
+            // evtSource.onmessage = (event) => {
+            //     console.log("from arrow func");
+            //     console.log(event);
+            // }
+
+            evtSource.onerror = (e) => {
+                console.log("error");
+                console.log(e);
+            }
+
+            evtSource.onopen = (e) => {
+                console.log("open");
+                console.log(e);
+            }
+
+            const closeButton = document.getElementById("closeConnection");
+            closeButton.onclick = () => {
+                console.log("Connection closed");
+                evtSource.close();
+            };
         }
+
 
     </script>
 </head>

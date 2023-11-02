@@ -25,9 +25,13 @@ def generate_event():
     # get a random id
     id = random.choice(ids)
     return {
-        "id": id,
-        "event": "secondary-update-event",
-        "data": f"Secondary Updated for id {id}"
+        # "id": id,
+        # "event": "secondary-update-event",
+        "data": {
+            "id": id,
+            "type": "secondary-saas",
+            "message": "secondary saas signed"
+        }
     }
 @app.get("/stream/{id}")
 async def stream(id: int):
@@ -35,8 +39,8 @@ async def stream(id: int):
         for i in range(10):
             await asyncio.sleep(1.0)
             event = generate_event()
-            print(event, id)
-            if event["id"] == id:
+            # print(event, id)
+            if event["data"]['id'] == id:
                 yield event
 
     return EventSourceResponse(event_generator())
