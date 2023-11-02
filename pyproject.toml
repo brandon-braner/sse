@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "fastapistreaming"
+version = "0.1.0"
+description = ""
+authors = ["Brandon Braner <brandon.braner@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.104.1"
+uvicorn = "^0.23.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
