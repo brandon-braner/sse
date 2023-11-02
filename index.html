@@ -17,8 +17,12 @@
     <script>
         const openButton = document.getElementById("openConnection");
         openButton.onclick = () => {
-            const evtSource = new EventSource("http://localhost:8000/stream/1");
+            client_id = 1231231
+            const evtSource = new EventSource(`http://localhost:8000/stream/{client_id}`);
             const eventList = document.querySelector("ul");
+
+            // wrap in set timeout
+            //browser support
             evtSource.addEventListener("message", (e) => {
                 const newElement = document.createElement("li");
 
@@ -46,6 +50,9 @@
             closeButton.onclick = () => {
                 console.log("Connection closed");
                 evtSource.close();
+
+                while(eventList.firstChild) eventList.removeChild(eventList.firstChild);
+
             };
         }
 

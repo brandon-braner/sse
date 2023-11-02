@@ -36,11 +36,17 @@ def generate_event():
 @app.get("/stream/{id}")
 async def stream(id: int):
     async def event_generator():
-        for i in range(10):
+        while True:
+
+            """ 
+            Imagine a pubsub message comes in here saying client id xyz 
+            signed a docusign at location pdq
+            """
             await asyncio.sleep(1.0)
             event = generate_event()
-            # print(event, id)
-            if event["data"]['id'] == id:
+            event_id = event["data"]['id']
+            print(event, event_id)
+            if event_id == id:
                 yield event
 
     return EventSourceResponse(event_generator())
